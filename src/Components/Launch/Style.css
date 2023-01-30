@@ -1,0 +1,32 @@
+.launch{
+    width: 1000px;
+    display: flex;
+    padding: 10px;
+    margin-right: 20px;
+    box-shadow: 2px 2px 9px 2px gray;
+    align-items: center;
+    margin: auto;
+    margin-top: 20px;
+}
+.launch-content{
+    width: 80%;
+}
+.launch img{
+    width: 200px;
+    height: 200px;
+    object-fit: fill; 
+}
+.launch-content{
+    margin-left: 20px;
+}
+.content-info{
+    display: flex;
+    justify-content: space-between;
+}
+.content-info h1{
+    color:darkcyan;
+}
+.launch-content p{
+    font-size: 20px;
+    color: gray;
+}
