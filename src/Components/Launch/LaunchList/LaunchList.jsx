@@ -1,26 +1,50 @@
 import React, { Component } from 'react'
 import Launch from '../Launch'
+import axios from 'axios'
+
 export default class LaunchList extends Component {
+
+    state ={
+        launches :[]
+    }
+
+    componentDidMount = () =>{
+        this.getLaunches()
+    }
+
+    getLaunches = () =>{
+        axios.get('https://api.spacexdata.com/v3/launches')
+        .then((response)=>{
+            this.setState({launches:response.data})
+            
+        })
+        .catch((error)=>{
+            console.log(error)
+     
+        })
+    }
+
+
+    launchList = () =>{
+    let launchListComponents = this.state.launches.map((launch,index)=>{
+        let image = launch.links.flickr_images.length === 0 ? 
+        'https://images.pexels.com/photos/41005/rocket-launch-rocket-take-off-soyuz-41005.jpeg?cs=srgb&dl=pexels-pixabay-41005.jpg&fm=jpg' : launch.links.flickr_images[0]
+        return <Launch 
+        key={"launch_"+index}
+        title={launch.mission_name} 
+        date={launch.launch_date_local} 
+        content={launch.details} 
+        image={image}
+        />
+        })
+        
+        return launchListComponents;
+    }
+   
   render() {
     return (
         <div>
-            <Launch title='FalconSat' 
-            date='2006-03-25T10:30:00+12:00' 
-            content='Successful first stage burn and transition to second stage, maximum altitude 289 km, Premature engine shutdown at T+7 min 30 s, Failed to reach orbit, Failed to recover first stage' 
-            image='https://farm5.staticflickr.com/4256/35618496935_5049a27240_o.jpg'
-            />
-
-            <Launch title='AsiaSat 8' 
-            date='2014-08-05T04:00:00-04:00' 
-            content='Following second stage separation, SpaceX performed a test flight which attempted to return the first stage of the Falcon 9 through the atmosphere and land it on an approximately 90-by-50-meter (300 ft x 160 ft) floating platform-called the autonomous spaceport' 
-            image='https://farm9.staticflickr.com/8742/16233828644_96738200b2_o.jpg'
-            />
-            
-            <Launch title='AsiaSat 8' 
-            date='2014-08-05T04:00:00-04:00' 
-            content='Following second stage separation, SpaceX performed a test flight which attempted to return the first stage of the Falcon 9 through the atmosphere and land it on an approximately 90-by-50-meter (300 ft x 160 ft) floating platform-called the autonomous spaceport' 
-            image='https://farm9.staticflickr.com/8742/16233828644_96738200b2_o.jpg'
-            />
+            {this.launchList()}
         </div>
     )
   }
